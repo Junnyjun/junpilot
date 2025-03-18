@@ -1,7 +1,7 @@
-from transformers import GPT2LMHeadModel, GPT2Tokenizer
+from transformers import AutoModel, AutoTokenizer
 
-tokenizer = GPT2Tokenizer.from_pretrained("./model/tuned")
-model = GPT2LMHeadModel.from_pretrained("./model/tuned")
+tokenizer = AutoTokenizer.from_pretrained("./model/tuned")
+model = AutoModel.from_pretrained("./model/tuned")
 
 prompt = "인공지능의 발전 방향은"
 inputs = tokenizer.encode(prompt, return_tensors="pt")
