@@ -1,12 +1,12 @@
-from transformers import GPT2LMHeadModel, GPT2Tokenizer, Trainer, TrainingArguments
+from transformers import AutoModel, AutoTokenizer, Trainer, TrainingArguments
 from datasets import load_from_disk
 from torch import torch
 from accelerate import Accelerator
 
-model_name = "gpt2"
-tokenizer = GPT2Tokenizer.from_pretrained(model_name)
-tokenizer.pad_token = tokenizer.eos_token  # 필수!
-model = GPT2LMHeadModel.from_pretrained(model_name)
+model_name = "THUDM/chatglm-6b"
+tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
+tokenizer.pad_token = tokenizer.eos_token
+model = AutoModel.from_pretrained(model_name, trust_remote_code=True)
 
 
 # 데이터 로드 (아까 만든 데이터셋)
