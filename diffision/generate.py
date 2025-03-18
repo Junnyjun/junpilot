@@ -1,7 +1,7 @@
 from transformers import AutoModel, AutoTokenizer
 
-tokenizer = AutoTokenizer.from_pretrained("./model/tuned")
-model = AutoModel.from_pretrained("./model/tuned")
+tokenizer = AutoTokenizer.from_pretrained("./model/tuned", trust_remote_code=True)
+model = AutoModel.from_pretrained("./model/tuned", trust_remote_code=True)
 
 prompt = "인공지능의 발전 방향은"
 inputs = tokenizer.encode(prompt, return_tensors="pt")
