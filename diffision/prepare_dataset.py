@@ -2,9 +2,10 @@ import dataset
 from datasets import load_dataset
 from transformers import AutoTokenizer
 from tokenizers import Tokenizer
+from sentencepiece import SentencePieceTrainer
 
 model_name = "THUDM/chatglm-6b"
-tokenizer = AutoTokenizer.from_pretrained(model_name)
+tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
 tokenizer.pad_token = tokenizer.eos_token
 
 datasets = load_dataset("model/dataset", data_files={
