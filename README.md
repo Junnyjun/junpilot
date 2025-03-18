@@ -35,3 +35,15 @@
     ```sh
     docker run -p 8000:8000 junpilot
     ```
+
+## Running the Project using an Executable File
+
+1. Create the executable file using PyInstaller:
+    ```sh
+    pyinstaller --onefile manage.py
+    ```
+
+2. Run the executable file:
+    ```sh
+    ./dist/manage
+    ```
