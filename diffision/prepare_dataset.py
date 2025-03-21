@@ -1,21 +1,27 @@
-import dataset
 from datasets import load_dataset
-from transformers import AutoTokenizer
-from tokenizers import Tokenizer
-from sentencepiece import SentencePieceTrainer
+from transformers import PreTrainedTokenizerFast, GPT2LMHeadModel
 
-model_name = "THUDM/chatglm-6b"
-tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
-tokenizer.pad_token = tokenizer.eos_token
+model_name = "skt/kogpt2-base-v2"
+tokenizer = PreTrainedTokenizerFast.from_pretrained(model_name)
+model = GPT2LMHeadModel.from_pretrained(model_name)
 
-datasets = load_dataset("model/dataset", data_files={
-    "train": "*-train.txt",
-    "validation": "*-validation.txt"
+# 패딩 토큰이 없다면, 직접 추가합니다.
+if tokenizer.pad_token is None:
+    tokenizer.add_special_tokens({"pad_token": "[PAD]"})
+
+datasets = load_dataset("text", data_files={
+    "train": "model/dataset/*train*",
+    # "validation": "model/dataset/*validation*"
 })
 
 def tokenize_function(examples):
-    tokenized = tokenizer(examples["text"], padding="max_length", truncation=True, max_length=128)
-    tokenized["labels"] = tokenized["input_ids"].copy()  # ← 이 부분 추가 필수!
+    tokenized = tokenizer(
+        examples["text"],
+        padding="max_length",
+        truncation=True,
+        max_length=128
+    )
+    tokenized["labels"] = tokenized["input_ids"].copy()
     return tokenized
 
 tokenized_datasets = datasets.map(tokenize_function, batched=True)
